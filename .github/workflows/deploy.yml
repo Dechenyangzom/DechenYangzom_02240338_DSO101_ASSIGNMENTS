@@ -1,4 +1,4 @@
-name: Deploy to DockerHub
+name: Deploy to DockerHub and Render
 
 on:
   push:
@@ -25,3 +25,8 @@ jobs:
         run: |
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/todo-app:latest ./backend
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/todo-app:latest
+
+      # 4. Deploy to Render
+      - name: Trigger Render Deployment
+        run: |
+          curl "${{ secrets.RENDER_DEPLOY_HOOK }}"
